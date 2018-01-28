@@ -1,0 +1,1 @@
+ndk-build NDK_TOOLCHAIN=arm-linux-androideabi-4.9 NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk APP_PLATFORM=android-21 APP_STL=gnustl_static APP_CPPFLAGS=-fexceptions APP_CFLAGS=-Wno-error APP_ABI=armeabi-v7a

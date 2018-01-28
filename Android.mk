@@ -3,10 +3,10 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_CFLAGS += -Wall -c -fopenmp -fPIC -DARM -O3
-
+LOCAL_LDFLAGS += -fopenmp
 LOCAL_MODULE := thnets
 
-LOCAL_SRC_FILES := thload.c thbasic.c thapi.c pytorch.c images.c test.c \
+LOCAL_SRC_FILES := thload.c thbasic.c thapi.c pytorch.c images.c demo.c \
 	modules/CAddTable.c \
 	modules/Concat.c \
 	modules/ConcatTable.c \

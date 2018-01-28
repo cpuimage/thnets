@@ -1,3 +1,4 @@
+#define  _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,9 +7,8 @@
 #endif
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
-#ifdef USECUDAHOSTALLOC
 #include "thnets.h"
+#ifdef USECUDAHOSTALLOC
 
 void *cmalloc(size_t size)
 {
@@ -21,13 +21,6 @@ void *cmalloc(size_t size)
 #else
 #define cmalloc(a) malloc(a)
 #endif
-
-
-typedef struct {
-	char filename[255];
-	unsigned char *bitmap;
-	int width, height, cp;
-} img_t;
 
 
 int loadimage(const char *path, img_t *image)

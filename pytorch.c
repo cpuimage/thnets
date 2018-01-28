@@ -1,3 +1,8 @@
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#include <windows.h>
+#define  strdup _strdup
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -310,7 +315,7 @@ THFloatTensor *forward_pytorch(struct pyelement *node, THFloatTensor *in, struct
 			int i = 0;
 			struct network net;
 			struct module m;
-			struct module modules[node->function.ninputs];
+			struct module* modules = (struct module*) calloc(node->function.ninputs, sizeof(struct module));
 			m.ConcatTable.net = &net;
 			net.nelem = node->function.ninputs;
 			net.modules = modules;

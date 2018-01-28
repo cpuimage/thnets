@@ -41,8 +41,8 @@ THFloatTensor *nn_Cmax_updateOutput(struct module *module, THFloatTensor *input)
 	int batchsize = modules[0].output->nDimension % 2 == 0 ? size[0] : 1;
 	for(batch = 0; batch < batchsize; batch++)
 	{
-		long n[nelem];
-		float *outs[nelem];
+		long *n = calloc(nelem, sizeof(long));
+		float **outs = calloc(nelem, sizeof(float*));
 		for(i = 0; i < nelem; i++)
 		{
 			outs[i] = THFloatTensor_data(modules[i].output) + batch * modules[i].output->stride[0];
@@ -63,6 +63,14 @@ THFloatTensor *nn_Cmax_updateOutput(struct module *module, THFloatTensor *input)
 					out[j] = MAX(out[j], outs[i][j]);
 		}
 		out += output->stride[0];
+		if (n)
+		{
+			free(n);
+		}
+		if (outs)
+		{
+			free(outs);
+		}
 	}
 	return output;
 }

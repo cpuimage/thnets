@@ -1,7 +1,18 @@
+#ifdef MEMORYDEBUG
+#define _CRT_SECURE_NO_WARNINGS
+
+#ifdef _MSC_VER   
+#include "win_gettime.h"
+#endif 
+
+#ifdef __MACH__   
+#include "mach_gettime.h"
+#endif 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/time.h>
+ 
 
 #define MAXALLOC 1024*1024*1024
 
@@ -21,13 +32,13 @@ static int detailed = MEMORYDEBUG;
 
 static double seconds()
 {
-	static double base;
-	struct timeval tv;
+	static double s;
+	struct timespec ts;
 
-	gettimeofday(&tv, 0);
-	if(!base)
-		base = tv.tv_sec + tv.tv_usec * 1e-6;
-	return tv.tv_sec + tv.tv_usec * 1e-6 - base;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	if (!s)
+		s = ts.tv_sec + ts.tv_nsec * 1e-9;
+	return ts.tv_sec + ts.tv_nsec * 1e-9 - s;
 }
 
 void debug_memorydump(FILE *fp)
@@ -140,3 +151,4 @@ void debug_free(void *ptr, const char *file, int line)
 	debug_removepointer(ptr, file, line);
 	debug_print(file, line, "free", 0, 0, 1);
 }
+#endif

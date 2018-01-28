@@ -1,3 +1,11 @@
+
+
+#ifdef _MSC_VER
+#define th_inline __forceinline
+#else
+#define th_inline inline
+#endif
+
 #if defined USE_SSE2 || defined USE_SSE3 || defined USE_SSSE3 \
   || defined USE_SSE4_1 || defined USE_SSE4_2
 
@@ -144,7 +152,7 @@
 
 #else	
 
-static inline void THFloatVector_fill(float *x, float c, long n)
+static th_inline void THFloatVector_fill(float *x, float c, long n)
 {
 	long i = 0;
 	for(; i < n-4; i += 4)
@@ -159,7 +167,7 @@ static inline void THFloatVector_fill(float *x, float c, long n)
 		x[i] = c;
 }
 
-static inline void THFloatVector_add(float *y, const float *x, const float c, const long n)
+static th_inline void THFloatVector_add(float *y, const float *x, const float c, const long n)
 {
 	long i = 0;
 

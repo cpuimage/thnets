@@ -31,7 +31,7 @@ CC = gcc
 CXX = g++
 VPATH = modules cudnn OpenBLAS-stripped opencl lowp lowp/gemmlowp/eight_bit_int_gemm \
 	OpenBLAS-stripped/generic
-LIBOBJS = thload.o thbasic.o thapi.o SpatialConvolutionMM.o SpatialMaxPooling.o Threshold.o \
+LIBOBJS = thload.o thbasic.o thapi.o gemm.o SpatialConvolutionMM.o SpatialMaxPooling.o Threshold.o \
 	View.o SoftMax.o Linear.o Dropout.o SpatialZeroPadding.o Reshape.o SpatialConvolution.o \
 	Normalize.o SpatialFullConvolution.o SpatialMaxUnpooling.o SpatialBatchNormalization.o \
 	SpatialAveragePooling.o Sequential.o Concat.o ConcatTable.o JoinTable.o CAddTable.o \
@@ -183,7 +183,7 @@ ifeq ($(ONNX),1)
 	LIBS += -lprotobuf
 endif
 
-all : libthnets.so test
+all : libthnets.so demo
 
 onnx.pb.cc: onnx.proto
 	protoc onnx.proto --cpp_out=.
@@ -199,11 +199,11 @@ onnx.pb.cc: onnx.proto
 libthnets.so: $(LIBOBJS)
 	$(CXX) -o $@ $(LIBOBJS) -shared $(LDFLAGS) $(LIBS)
 
-test: $(LIBOBJS) test.o images.o
-	$(CC) -o $@ test.o images.o libthnets.so $(LDFLAGS) $(LIBS)
+demo: $(LIBOBJS) demo.o images.o
+	$(CC) -o $@ demo.o images.o libthnets.so $(LDFLAGS) $(LIBS)
 
 clean :
-	rm -f *.o libthnets.so test onnx.pb.*
+	rm -f *.o libthnets.so demo
 
 install:
 	cp libthnets.so /usr/local/lib

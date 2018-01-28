@@ -4,15 +4,24 @@
 #include <stdarg.h>
 #include <limits.h>
 #include "thnets.h"
+#ifdef _MSC_VER 
+#define WIN32_LEAN_AND_MEAN  
+#include <windows.h>  
+#define THAtomicIncrement(a) InterlockedIncrement(a);
+#define THAtomicDecrement(a) InterlockedDecrement(a); 
+#else
+
+#define THAtomicIncrement(a) __sync_fetch_and_add(a, 1);
+#define THAtomicDecrement(a) __sync_fetch_and_add(a, -1);
+#endif 
+
 #ifndef USEBLAS
 #include "sgemm.h"
 #endif
 #ifdef ACCELERATE
 #include <Accelerate/Accelerate.h>
 #endif
-
-#define THAtomicIncrement(a) __sync_fetch_and_add(a, 1);
-#define THAtomicDecrement(a) __sync_fetch_and_add(a, -1);
+ 
 
 THFloatStorage *THFloatStorage_new(long size)
 {
