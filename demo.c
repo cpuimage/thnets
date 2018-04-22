@@ -2,12 +2,14 @@
 #include <stdlib.h> 
 #include <stdio.h> 
 #include "thnets.h"
-// http://tntmonks.cnblogs.com/
+
 THNETWORK * net;
 
 char * labels[] = { "lamp"," bottle"," watch"," pen"," grass"," shoe"," wall"," chair"," mug"," fork"," table"," book"," tablet"," bookcase"," pencil"," door"," face"," ceiling"," sofa"," bicycle"," aluminum - can"," window"," road"," stairs"," floor"," painting"," toy"," remote"," computer"," plant"," television"," dog"," laptop"," microwave"," cat"," tree"," knife"," car"," motorcycle"," person"," cup"," sidewalk"," telephone"," spoon"," hand"," sofabed" };
 
 int main(int argc, char ** argv) {
+	printf("blog:http://cpuimage.cnblogs.com/\n");
+    printf("e-mail:gaozhihan@vip.qq.com\n");
 	img_t image = { 0 };
 	//test.jpg 
 	char * pic_file = argv[1];
